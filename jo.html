@@ -4,13 +4,23 @@
   <title>game night</title>
   <style>
     body { text-align: center; font-family: Arial; background-color: LightSteelBlue; }
-    img { width: 550px; height: 470px; margin: 20px; border: 2px solid #ccc; border-color: FireBrick object-fit: cover; }
-    button { border: none; background: none; }
+    img { 
+  width: 550px; 
+  height: 470px; 
+  margin: 20px; 
+  border: 2px solid FireBrick; 
+  object-fit: cover; 
+}
+
+button:hover {
+border: 3px solid #2e4053; /* highlight on hover */
+transform: scale(1.03);
+}
   </style>
 </head>
 <body>
 
-  <h1>⋆｡‧˚ʚ save one, pass one ɞ˚‧｡⋆</h1>
+  <h1>⋆｡‧˚ʚ pick one, save one ɞ˚‧｡⋆</h1>
   <h3 id="round-title">Round 1</h3>
 
   <div id="video-container"></div>
