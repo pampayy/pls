@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>game night</title>
+  <style>
+    body { text-align: center; font-family: Arial; background-color: powderblue; }
+    video { width: 670px; height: 370px; margin: 20px; border: 2px solid #ccc; }
+    button {
+  border: 3px solid transparent;
+  background-color: transparent;
+  padding: 0;
+  margin: 10px;
+  cursor: pointer;
+  transition: border 0.2s, transform 0.2s;
+}
+
+button:hover {
+  border: 3px solid #2e4053; /* highlight on hover */
+  transform: scale(1.03);
+}
+  </style>
+</head>
+<body>
+
+  <h1>⋆｡‧˚ʚ this or that ɞ˚‧｡⋆</h1>
+  <h3 id="round-title">Round 1</h3>
+
+  <div id="video-container">
+    <video>
+		<source src = "videos"></source>
+	</video>
+  </div>
+
+  <script>
+    // List of your 30 local videos (in the same folder or use path like "videos/vid1.mp4")
+    let videos = [
+      "vid1.mp4", "vid2.mp4", "vid3.mp4", "vid4.mp4", "vid5.mp4", "vid6.mp4",
+      "vid7.mp4", "vid8.mp4", "vid9.mp4", "vid10.mp4", "vid11.mp4", "vid12.mp4",
+      "vid13.mp4", "vid14.mp4", "vid15.mp4", "vid16.mp4", "vid17.mp4", "vid18.mp4",
+      "vid19.mp4", "vid20.mp4"
+    ];
+
+    let currentRound = [];
+    let selected = [];
+    let index = 0;
+
+    // Shuffle videos at the beginning
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function startGame() {
+      shuffle(videos);
+      currentRound = videos.slice();
+      selected = [];
+      index = 0;
+      showNextMatch();
+    }
+
+    function showNextMatch() {
+      document.getElementById("video-container").innerHTML = "";
+
+      if (index >= currentRound.length) {
+        // Round over
+        if (selected.length === 1) {
+          document.getElementById("round-title").innerText = "🏆 Final Winner 🏆";
+          showWinner(selected[0]);
+          return;
+        } else {
+          currentRound = selected.slice();
+          selected = [];
+          index = 0;
+          document.getElementById("round-title").innerText = "Next Round";
+          showNextMatch();
+          return;
+        }
+      }
+
+      // Show current pair
+      const vid1 = currentRound[index];
+      const vid2 = currentRound[index + 1];
+      index += 2;
+
+      [vid1, vid2].forEach((vid, i) => {
+        const btn = document.createElement("button");
+        btn.onclick = () => {
+          selected.push(vid);
+          showNextMatch();
+        };
+
+        const video = document.createElement("video");
+        video.src = "videos/" + vid; // Adjust path to your folder
+        video.controls = true;
+        btn.appendChild(video);
+
+        document.getElementById("video-container").appendChild(btn);
+      });
+    }
+
+    function showWinner(winner) {
+      const div = document.getElementById("video-container");
+      div.innerHTML = "";
+      const video = document.createElement("video");
+      video.src = "videos/" + winner;
+      video.controls = true;
+      video.autoplay = true;
+      div.appendChild(video);
+    }
+
+    // Start the game when the page loads
+    window.onload = startGame;
+  </script>
+</body>
+</html>

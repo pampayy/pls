@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>game night</title>
+  <style>
+    body { text-align: center; font-family: Arial; background-color: LightSteelBlue; }
+    img { width: 550px; height: 470px; margin: 20px; border: 2px solid #ccc; border-color: FireBrick object-fit: cover; }
+    button { border: none; background: none; }
+  </style>
+</head>
+<body>
+
+  <h1>⋆｡‧˚ʚ save one, pass one ɞ˚‧｡⋆</h1>
+  <h3 id="round-title">Round 1</h3>
+
+  <div id="video-container"></div>
+
+  <script>
+    // List of your 20 local images (in "images/" folder)
+    let images = [
+      "img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg",
+      "img6.jpg", "img7.jpg", "img8.jpg", "img9.jpg", "img10.jpg",
+      "img11.jpg", "img12.jpg", "img13.jpg", "img14.jpg", "img15.jpg",
+      "img16.jpg", "img17.jpg", "img18.jpg", "img19.jpg", "img20.jpg"
+    ];
+
+    let currentRound = [];
+    let selected = [];
+    let index = 0;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function startGame() {
+      shuffle(images);
+      currentRound = images.slice();
+      selected = [];
+      index = 0;
+      showNextMatch();
+    }
+
+    function showNextMatch() {
+      const container = document.getElementById("video-container");
+      container.innerHTML = "";
+
+      if (index >= currentRound.length) {
+        if (selected.length === 1) {
+          document.getElementById("round-title").innerText = "🏆 Final Winner 🏆";
+          showWinner(selected[0]);
+          return;
+        } else {
+          currentRound = selected.slice();
+          selected = [];
+          index = 0;
+          document.getElementById("round-title").innerText = "Next Round";
+          showNextMatch();
+          return;
+        }
+      }
+
+      const img1 = currentRound[index];
+      const img2 = currentRound[index + 1];
+      index += 2;
+
+      if (!img2) {
+        selected.push(img1);
+        showNextMatch();
+        return;
+      }
+
+      [img1, img2].forEach((img) => {
+        const btn = document.createElement("button");
+        btn.onclick = () => {
+          selected.push(img);
+          showNextMatch();
+        };
+
+        const image = document.createElement("img");
+        image.src = "images/" + img; // Change folder if needed
+        btn.appendChild(image);
+        container.appendChild(btn);
+      });
+    }
+
+    function showWinner(winner) {
+      const div = document.getElementById("video-container");
+      div.innerHTML = "";
+      const img = document.createElement("img");
+      img.src = "images/" + winner;
+      div.appendChild(img);
+    }
+
+    window.onload = startGame;
+  </script>
+</body>
+</html>
