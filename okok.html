@@ -92,7 +92,7 @@ button:hover {
   };
 
   const video = document.createElement("video");
-  video.src = vid; // <-- FIXED here
+  video.src = "./" + vid; // <-- FIXED here
   video.controls = true;
   btn.appendChild(video);
 
@@ -103,7 +103,7 @@ function showWinner(winner) {
   const div = document.getElementById("video-container");
   div.innerHTML = "";
   const video = document.createElement("video");
-  video.src = winner; // <-- FIXED here
+  video.src = "./" + winner; // <-- FIXED here
   video.controls = true;
   video.autoplay = true;
   div.appendChild(video);
