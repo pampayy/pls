@@ -84,31 +84,30 @@ button:hover {
       const vid2 = currentRound[index + 1];
       index += 2;
 
-      [vid1, vid2].forEach((vid, i) => {
-        const btn = document.createElement("button");
-        btn.onclick = () => {
-          selected.push(vid);
-          showNextMatch();
-        };
+    [vid1, vid2].forEach((vid, i) => {
+  const btn = document.createElement("button");
+  btn.onclick = () => {
+    selected.push(vid);
+    showNextMatch();
+  };
 
-        const video = document.createElement("video");
-        video.src = "videos/" + vid; // Adjust path to your folder
-        video.controls = true;
-        btn.appendChild(video);
+  const video = document.createElement("video");
+  video.src = vid; // <-- FIXED here
+  video.controls = true;
+  btn.appendChild(video);
 
-        document.getElementById("video-container").appendChild(btn);
-      });
-    }
+  document.getElementById("video-container").appendChild(btn);
+});
 
-    function showWinner(winner) {
-      const div = document.getElementById("video-container");
-      div.innerHTML = "";
-      const video = document.createElement("video");
-      video.src = "videos/" + winner;
-      video.controls = true;
-      video.autoplay = true;
-      div.appendChild(video);
-    }
+function showWinner(winner) {
+  const div = document.getElementById("video-container");
+  div.innerHTML = "";
+  const video = document.createElement("video");
+  video.src = winner; // <-- FIXED here
+  video.controls = true;
+  video.autoplay = true;
+  div.appendChild(video);
+}
 
     // Start the game when the page loads
     window.onload = startGame;
